@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'php-crud-app'
-        ECR_REPO = '170974506713.dkr.ecr.eu-north-1.amazonaws.com/php-crud-app'
-        AWS_REGION = 'eu-north-1'
+        DOCKER_IMAGE = 'php-image'
+        ECR_REPO = '461958693942.dkr.ecr.us-east-2.amazonaws.com/php-image'
+        AWS_REGION = 'us-east-2'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/lavkeshBhadauriya98/php-crud-docker.git'
+                git branch: 'main', url: 'https://github.com/vihaanyadav19/php-project.git'
             }
         }
 
@@ -48,7 +48,7 @@ pipeline {
                 echo "Deployment on EC2: Pull Docker image from ECR and run"
                 script {
                     sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@<EC2-PUBLIC-IP> "docker pull $ECR_REPO:latest && docker stop php-crud-app || true && docker rm php-crud-app || true && docker run -d --name php-crud-app -p 80:80 $ECR_REPO:latest"
+                    ssh -o StrictHostKeyChecking=no ubuntu@3.17.39.107 "docker pull $ECR_REPO:latest && docker stop php-crud-app || true && docker rm php-image || true && docker run -d --name php-image -p 3000:80 $ECR_REPO:latest"
                     '''
                 }
             }
