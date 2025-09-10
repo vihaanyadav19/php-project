@@ -45,14 +45,16 @@ pipeline {
 
         stage('Deploy on EC2') {
             steps {
-                echo "Deployment on EC2: Pull Docker image from ECR and run"
-                script {
+                sshagent (credentials: ['app-ssh-key']) {
                     sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@3.17.39.107 "docker pull $ECR_REPO:latest && docker stop php-crud-app || true && docker rm php-image || true && docker run -d --name php-image -p 3000:80 $ECR_REPO:latest"
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.33.96 \
+                        "docker pull $ECR_REPO:latest && \
+                        docker stop nostalgic_lamarr || true && \
+                        docker rm php-image || true && \
+                        docker run -d --name php-image -p 3000:80 $ECR_REPO:latest"
                     '''
                 }
             }
         }
     }
 }
-
