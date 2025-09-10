@@ -47,11 +47,13 @@ pipeline {
             steps {
                 sshagent (credentials: ['app-ssh-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.33.96 \
-                        "docker pull $ECR_REPO:latest && \
-                        docker stop nostalgic_lamarr || true && \
-                        docker rm php-image || true && \
-                        docker run -d --name php-image -p 3000:80 $ECR_REPO:latest"
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.33.96 "
+                            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 461958693942.dkr.ecr.us-east-2.amazonaws.com &&
+                            docker pull $ECR_REPO:latest &&
+                            docker stop php-image || true &&
+                            docker rm php-image || true &&
+                            docker run -d --name php-image -p 3000:80 $ECR_REPO:latest
+                        "
                     '''
                 }
             }
