@@ -8,7 +8,7 @@ $result = mysqli_query($conn, "SELECT * FROM users ORDER BY id DESC");
 
 <html>
 <head>	
-	<title>Homepage</title>
+	<title>Homepages</title>
 </head>
 
 <body>
