@@ -50,8 +50,8 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.33.96 "
                             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 461958693942.dkr.ecr.us-east-2.amazonaws.com &&
                             docker pull $ECR_REPO:latest &&
-                            docker stop nostalgic_lamarr || true &&
-                            docker rm nostalgic_lamarr || true &&
+                            docker stop php-images || true &&
+                            docker rm php-images || true &&
                             docker run -d --name php-images -p 3000:80 $ECR_REPO:latest
                         "
                     '''
