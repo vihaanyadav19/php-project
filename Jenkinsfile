@@ -52,7 +52,7 @@ pipeline {
                             docker pull $ECR_REPO:latest &&
                             docker stop php-images || true &&
                             docker rm php-images || true &&
-                            docker run -d --name php-images -p 3000:80 $ECR_REPO:latest
+                            docker run -d --name php-image -p 3000:80 $ECR_REPO:latest
                         "
                     '''
                 }
